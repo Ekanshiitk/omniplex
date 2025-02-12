@@ -29,6 +29,8 @@ const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
     return () => unsubscribe();
   }, [dispatch]);
 
+  console.log("AuthWrapper children:", children);
+
   return <>{children}</>;
 };
 

@@ -26,6 +26,8 @@ import useChatFork from "@/hooks/useChatFork";
 import useChatRetry from "@/hooks/useChatRetry";
 import useChatAnswer from "@/hooks/useChatAnswer";
 
+
+
 type Props = {
   id: string;
 };
@@ -47,11 +49,11 @@ const Chat = (props: Props) => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (chatContainerRef.current) {
+    if (chatContainerRef.current && chatThread?.chats?.length) {
       chatContainerRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [chatThread?.chats]);
-
+  }, [chatThread?.chats?.length]); 
+  
   const { handleAnswer, handleRewrite, handleCancel } = useChatAnswer({
     threadId: id,
     chatThread,

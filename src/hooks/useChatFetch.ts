@@ -66,17 +66,20 @@ const useChatFetch = (id: string) => {
   useEffect(() => {
     const fetchData = async () => {
       setIsFetching(true);
-      if (!chatThread) {
-        await fetchChatThread();
-      } else if (chatThread.shared) {
+  
+      if (!chatThread || chatThread.shared) {
         await fetchChatThread();
       } else {
         setIsFetching(false);
       }
     };
-
+  
     fetchData();
-  }, []);
+  
+    return () => {
+      setIsFetching(false); // Cleanup (optional)
+    };
+  }, [chatThread, fetchChatThread, setIsFetching]);
 
   return { chatThread, isFetching };
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styles from "./Library.module.css";
 import Image from "next/image";
 import Auth from "../Auth/Auth";
@@ -31,11 +31,7 @@ const Library = () => {
   const [deleting, setDeleting] = useState(false);
   const [libraryData, setLibraryData] = useState<LibraryItem[]>([]);
 
-  useEffect(() => {
-    fetchLibraryData();
-  }, [isAuthenticated, userDetails.uid]);
-
-  const fetchLibraryData = async () => {
+  const fetchLibraryData = useCallback(async () => {
     if (isAuthenticated && userDetails.uid) {
       setLoading(true);
       const libraryRef = collection(db, "users", userDetails.uid, "library");
@@ -51,7 +47,11 @@ const Library = () => {
       setLibraryData([]);
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchLibraryData();
+  }, [fetchLibraryData, isAuthenticated, userDetails.uid]);
 
   const handleDelete = async (itemId: string) => {
     if (isAuthenticated && userDetails.uid) {

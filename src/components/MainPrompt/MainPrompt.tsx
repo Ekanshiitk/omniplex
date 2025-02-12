@@ -253,57 +253,50 @@ const MainPrompt = () => {
             )}
             {width > 512 ? (
               <Popover
-                placement={"bottom-start"}
-                radius="lg"
-                offset={4}
-                containerPadding={0}
-                isOpen={open}
-                onOpenChange={(open) => setOpen(open)}
-              >
-                <PopoverTrigger>
-                  <div className={styles.button}>
-                    <Image
-                      src={focus.icon}
-                      alt="Filter"
-                      width={18}
-                      height={18}
-                    />
-                    <p className={styles.buttonText}>{focus.website}</p>
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent className={styles.popoverContainer}>
-                  <div className={styles.popover}>
-                    {focusOptions.map((option, index) => (
-                      <div
-                        key={index}
-                        className={styles.popoverBlock}
-                        onClick={() =>
-                          option.website === "All"
-                            ? handleFocusChange("Focus", "", Filter)
-                            : handleFocusChange(
-                                option.website,
-                                option.query,
-                                option.icon
-                              )
-                        }
-                      >
-                        <div className={styles.popoverTitleContainer}>
-                          <Image
-                            src={option.icon}
-                            alt={option.website}
-                            width={24}
-                            height={24}
-                          />
-                          <p className={styles.popoverText}>{option.website}</p>
-                        </div>
-                        <p className={styles.popoverSmallText}>
-                          {option.description}
-                        </p>
+              placement="bottom-start"
+              radius="lg"
+              offset={4}
+              containerPadding={0}
+              isOpen={open}
+              onOpenChange={setOpen}
+            >
+              <PopoverTrigger>
+                <button className={styles.button}>
+                  {focus?.icon ? (
+                    <Image src={focus.icon} alt="Filter" width={18} height={18} />
+                  ) : (
+                    <span>🔍</span>
+                  )}
+                  <p className={styles.buttonText}>{focus?.website || "Select"}</p>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className={styles.popoverContainer}>
+                <div className={styles.popover}>
+                  {focusOptions.map((option, index) => (
+                    <div
+                      key={index}
+                      className={styles.popoverBlock}
+                      onClick={() =>
+                        option.website === "All"
+                          ? handleFocusChange("Focus", "", Filter)
+                          : handleFocusChange(option.website, option.query, option.icon)
+                      }
+                    >
+                      <div className={styles.popoverTitleContainer}>
+                        <Image
+                          src={option.icon}
+                          alt={option.website}
+                          width={24}
+                          height={24}
+                        />
+                        <p className={styles.popoverText}>{option.website}</p>
                       </div>
-                    ))}
-                  </div>
-                </PopoverContent>
-              </Popover>
+                      <p className={styles.popoverSmallText}>{option.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
             ) : (
               <Sheet
                 isOpen={open}
