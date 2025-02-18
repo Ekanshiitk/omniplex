@@ -35,7 +35,6 @@ interface ChatThreadWithTimestamp extends ChatThread {
   createdAt: Timestamp;
 }
 
-// ✅ Memoized fetchChatHistory to prevent unnecessary re-renders
 const History = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,7 +45,6 @@ const History = () => {
   const [chatHistory, setChatHistory] = useState<ChatThreadWithTimestamp[]>([]);
   const [fadeIn, setFadeIn] = useState(false);
 
-  // ✅ Memoized fetchChatHistory using useCallback to prevent infinite loops
   const fetchChatHistory = useCallback(async () => {
     if (!isAuthenticated || !userDetails?.uid) {
       setChatHistory([]);
@@ -73,13 +71,11 @@ const History = () => {
     }
   }, [isAuthenticated, userDetails?.uid]);
 
-  // ✅ useEffect runs only when necessary
   useEffect(() => {
     setFadeIn(true);
     fetchChatHistory();
   }, [fetchChatHistory]);
 
-  // ✅ Delete function to remove chat history
   const handleDelete = async (threadId: string) => {
     if (!isAuthenticated || !userDetails?.uid) return;
 
@@ -158,7 +154,7 @@ const History = () => {
                         alt="Delete"
                         className={styles.bin}
                         onClick={(event) => {
-                          event.stopPropagation(); // ✅ Prevents clicking on parent element
+                          event.stopPropagation(); 
                           handleDelete(item.id);
                         }}
                       />
